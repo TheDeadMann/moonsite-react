@@ -1,0 +1,12 @@
+.gadgetsContainer {
+    display: flex;
+    flex-direction: column;;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+
+    
+    > *:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+}
