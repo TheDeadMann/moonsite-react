@@ -1,10 +1,21 @@
+@use './variables.scss' as *;
+
 .wardrobeGadget {
     display: flex;
-    border: 1px solid black;
-    border-radius: 8px;
-    color: black;
+    justify-content: space-around;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
 
-    div {
-        padding: 1rem;
+    .itemCountObject {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 0 1rem 0;
+        font-size: 1.5rem;
+
+        .itemCountDigit {
+            font-size: 2em;
+        }
     }
 }

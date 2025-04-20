@@ -8,7 +8,12 @@ export const SavedGadget = () => {
 
   return (
     <NavLink to="/saved" className={styles.savedGadget}>
-        {savedOutfits.outfits.length}
+        <div>
+          Saved Outfits
+        </div>
+        <div className={styles.outfitCount}>
+          {savedOutfits.outfits.length}
+        </div>
     </NavLink>
   )
 }

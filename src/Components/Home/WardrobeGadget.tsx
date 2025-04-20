@@ -7,9 +7,26 @@ export const WardrobeGadget = () => {
   
   return (
     <div className={styles.wardrobeGadget}>
-        <div>{ wardrobe.shoes ? wardrobe.shoes.length : 0 } 👞</div>
-        <div>{ wardrobe.pants ? wardrobe.pants.length : 0 } 👖</div>
-        <div>{ wardrobe.shirts ? wardrobe.shirts.length : 0 } 👕</div>
+      {
+        (Object.keys(wardrobe) as Array<keyof typeof wardrobe>).map((key) => {
+          return (
+            <div className={styles.itemCountObject}>
+              <div className={styles.itemCountDigit}>
+                {
+                  wardrobe[key] ?
+                  <div>
+                    {wardrobe[key].length}
+                  </div> :
+                  0
+                }
+              </div>
+              <div>
+                {key.charAt(0).toUpperCase() + key.slice(1)}
+              </div>
+            </div>
+          )
+        })
+      }
     </div>
   )
 }

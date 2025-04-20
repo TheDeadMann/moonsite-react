@@ -1,7 +1,9 @@
+@use './variables.scss' as *;
+
 .openNavbar {
     display: flex;
     flex-direction: column;
-    border: 1px solid #000;
+    border: 1px solid $border-color;
     width: 20rem;
 
     .logo {
