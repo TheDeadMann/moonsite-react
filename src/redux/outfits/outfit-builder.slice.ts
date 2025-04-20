@@ -46,7 +46,7 @@ const outfitBuilderSlice = createSlice({
                 state.endedAt = new Date().getTime()
             }
         },
-        clearOutfit: (state) => {
+        clearOutfitBuilder: (state) => {
             state.items.shirt = null
             state.items.pants = null
             state.items.shoes = null
@@ -56,6 +56,6 @@ const outfitBuilderSlice = createSlice({
     }
 })
 
-export const { setItem, clearOutfit } = outfitBuilderSlice.actions
+export const { setItem, clearOutfitBuilder } = outfitBuilderSlice.actions
 
 export default outfitBuilderSlice.reducer

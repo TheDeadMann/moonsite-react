@@ -15,10 +15,14 @@ export const ItemSlider = ({items}: Props) => {
 
     const handleItemClick = (item: WardrobeItem) => {
         dispatch(setItem(item))
-        dispatch(postWardrobeChoice(item))
+
+        // TODO - think of a better name
+        const outfitBuilderItems = Object.values(outfitBuilder.items).filter(item => item !== null).concat(item) // concating because the state updates after the function is completed
+
+        dispatch(postWardrobeChoice(outfitBuilderItems))
     }
 
-    // TODO - think of a better name
+    // TODO - think of a better name, conflicts with outfitBuilderItems
     const itemFromOutfitBuilder = Object.values(outfitBuilder.items).filter(item => item && item.type === items[0].type)[0]
 
     return (
@@ -29,7 +33,11 @@ export const ItemSlider = ({items}: Props) => {
                 ? <div>{itemFromOutfitBuilder.id}</div>
                 : items
                     .slice()
-                    .sort((a, b) => (a.relevance && b.relevance ? a.relevance - b.relevance : 0))
+                    .sort((a, b) => {
+                        const relevanceA = a.relevance ?? Infinity
+                        const relevanceB = b.relevance ?? Infinity
+                        return relevanceA - relevanceB
+                    })
                     .map((item) => {
                         return (
                             <button onClick={() => handleItemClick(item)} className={styles.itemButton} key={item.id}>

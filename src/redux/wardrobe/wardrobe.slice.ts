@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { WardrobeItem, ShoeItem, PantsItem, ShirtItem } from '../../types/wardrobe'
+import { WardrobeItem, ShoeItem, PantsItem, ShirtItem, PostWardrobeChoiceResponse } from '../../types/wardrobe'
 import { RootState } from '../store'
+import { generateAIRequestBody } from '../../utils/wardrobeAI'
 
 interface WardrobeState {
     shoes: ShoeItem[],
@@ -15,28 +16,35 @@ const initialState: WardrobeState = {
     shirts: []
 }
 
+// TODO - make this file actually readable
 const wardrobeSlice = createSlice({
     name: 'wardrobe',
     initialState,
     reducers: {
-        // increment: (state) => {
-        //     state.value += 1
-        // },
-        // decrement: (state) => {
-        //     state.value -= 1
-        // },
-        // reset: (state) => {
-        //     state.value = 0
-        // },
-        // setValue: (state, action: PayloadAction<number>) => {
-        //     state.value = action.payload
-        // }
+        removeItems: (state, action: PayloadAction<WardrobeItem[]>) => {
+            const itemsToRemove = action.payload
+
+            state.shoes = state.shoes.filter(
+                shoe => !itemsToRemove.some(item => item.type === 'shoes' && item.brand === shoe.brand)
+            )
+            state.pants = state.pants.filter(
+                pant => !itemsToRemove.some(item => item.type === 'pants' && item.brand === pant.brand)
+            )
+            state.shirts = state.shirts.filter(
+                shirt => !itemsToRemove.some(item => item.type === 'shirt' && item.brand === shirt.brand)
+            )
+        },
+        clearRelevance: (state) => {
+            state.shoes = state.shoes.map(item => ({ ...item, relevance: undefined }))
+            state.pants = state.pants.map(item => ({ ...item, relevance: undefined }))
+            state.shirts = state.shirts.map(item => ({ ...item, relevance: undefined }))
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getWardrobe.fulfilled, (state, action) => {
-            state.shoes = action.payload.filter((item: WardrobeItem) => item.type === 'shoes')
-            state.pants = action.payload.filter((item: WardrobeItem) => item.type === 'pants')
-            state.shirts = action.payload.filter((item: WardrobeItem) => item.type === 'shirt')
+            state.shoes = action.payload.filter(item => item.type === 'shoes') as ShoeItem[]
+            state.pants = action.payload.filter(item => item.type === 'pants') as PantsItem[]
+            state.shirts = action.payload.filter(item => item.type === 'shirt') as ShirtItem[]
         })
         .addCase(getWardrobe.pending, () => {
             console.log('Loading wardrobe...')
@@ -46,17 +54,37 @@ const wardrobeSlice = createSlice({
             Object.assign(state, initialState)
         })
 
-        builder.addCase(postWardrobeChoice.fulfilled, (state, action) => {
-            // TODO - fix the shitty types
-            // TODO - move to function, repetetive code
-            if (action.payload.items.some((item: WardrobeItem) => item.type === 'shoes'))
-                state.shoes = action.payload.items.filter((item: WardrobeItem) => item.type === 'shoes')
+        builder.addCase(postWardrobeChoice.fulfilled, (state, action: PayloadAction<PostWardrobeChoiceResponse>) => { 
+            // TODO - large code, maybe move to a separate function?
+            if (action.payload.items.some(item => item.type === 'shoes')) {
+                state.shoes = state.shoes.map(item => {
+                    const newItem = action.payload.items.find(newItem => newItem.id === item.id)
+                    if (newItem) {
+                        return { ...item, relevance: newItem.relevance }
+                    }
+                    return item
+                })
+            }
 
-            if (action.payload.items.some((item: WardrobeItem) => item.type === 'pants'))
-                state.pants = action.payload.items.filter((item: WardrobeItem) => item.type === 'pants')
+            if (action.payload.items.some(item => item.type === 'pants')) {
+                state.pants = state.pants.map(item => {
+                    const newItem = action.payload.items.find(newItem => newItem.id === item.id)
+                    if (newItem) {
+                        return { ...item, relevance: newItem.relevance }
+                    }
+                    return item
+                })
+            }
 
-            if (action.payload.items.some((item: WardrobeItem) => item.type === 'shirt'))
-                state.shirts = action.payload.items.filter((item: WardrobeItem) => item.type === 'shirt')
+            if (action.payload.items.some(item => item.type === 'shirt')) {
+                state.shirts = state.shirts.map(item => {
+                    const newItem = action.payload.items.find(newItem => newItem.id === item.id)
+                    if (newItem) {
+                        return { ...item, relevance: newItem.relevance }
+                    }
+                    return item
+                })
+            }
         })
         .addCase(postWardrobeChoice.pending, () => {
             console.log('Loading wardrobe...')
@@ -68,20 +96,21 @@ const wardrobeSlice = createSlice({
     }
 })
 
-export const getWardrobe = createAsyncThunk(
+export const getWardrobe = createAsyncThunk<WardrobeItem[]>(
     'wardrobe/getWardrobe',
     async () => {
         const response = await axios.get('/data.json')
         if (response.status !== 200) { // this will never happen because the file is local. doing it for best practice.
             throw new Error('Failed to fetch wardrobe')
         }
+
         return response.data
     }
 )
 
 export const postWardrobeChoice = createAsyncThunk(
     'wardrobe/postWardrobeChoice',
-    async (selectedItem: WardrobeItem, { getState }) => {
+    async (selectedItems: WardrobeItem[], { getState }) => {
         const algoApiUrl = import.meta.env.VITE_ALGO_API
         if (!algoApiUrl) {
             throw new Error('ALGO_API is not defined')
@@ -89,7 +118,7 @@ export const postWardrobeChoice = createAsyncThunk(
         
         const state = getState() as RootState
         
-        // TODO - better complexity handling
+        // TODO - better complexity
         const availableItems = [
             // TODO - fix the relevance handling, no way i need to deconstruct everything just to remove the relevance property
 
@@ -99,26 +128,21 @@ export const postWardrobeChoice = createAsyncThunk(
             ...state.wardrobe.shirts.map(({ relevance, ...item }) => item) // eslint-disable-line @typescript-eslint/no-unused-vars
         ].filter(item =>
             // TODO - better type handling maybe?
-            !Object.values(state.outfitBuilder).some((outfitItem: WardrobeItem | null) => outfitItem && outfitItem.type === item.type)
+            // TODO - using state.outfitBuilder is not good practice, fix it
+            !Object.values(state.outfitBuilder.items).some((outfitItem: WardrobeItem | null) => outfitItem && outfitItem.type === item.type)
         )
 
-        // TODO - move this somewhere else
-        // from backend perspective, this 👇🏿 is not best practice at all. only doing it because the project is supposed to asess my frontend skills and coding a dedicated backend server feels like cheating 🤔
-        const requestBody = {
-            system: "You are a fashion recommendation expert. Your job is to suggest clothing items that go well together in terms of size and color. You help users build a stylish outfit consisting of a shirt, pants, and shoes. Each clothing item has: - an id (which must be preserved in the output) - a type: shirt, pants, or shoes - a brand - a color - a size (shirts use sizes S–XXL; pants and shoes use numeric sizes). The user selects one item to start with. Based on this item, you evaluate the rest of the clothing items and assign each one a relevance score from 0 (best match) to 100 (worst match). Guidelines: 1. Size compatibility: Use rough mapping between clothing types (e.g., shoe size 45 likely means shirt size XL or XXL). 2. Color matching: Avoid clashing colors and favor complementary or neutral tones. Your response must be JSON like this: {\"items\": [{\"id\": \"item_123\", \"type\": \"pants\", \"brand\": \"Levi's\", \"color\": \"dark blue\", \"size\": 32, \"relevance\": 5}]}. Response without ```json and ```.",
-            user: `The user has selected: ${JSON.stringify(selectedItem)}. Please evaluate the following available clothing items and assign a relevance score to each one: ${JSON.stringify(availableItems)}`
-        }
+        const requestBody = generateAIRequestBody(selectedItems, availableItems)
 
         const response = await axios.post(algoApiUrl, requestBody)
         if (response.status !== 200) {
             throw new Error('Failed to post wardrobe choice')
         }
         
-        console.log(response.data)
         return response.data
     }
 )
 
-// export const {  } = counterSlice.actions
+export const { removeItems } = wardrobeSlice.actions
 
 export default wardrobeSlice.reducer

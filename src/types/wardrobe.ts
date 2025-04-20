@@ -20,3 +20,7 @@ export type PantsItem = WardrobeItem & {
 export type ShirtItem = WardrobeItem & {
     type: 'shirt'
 }
+
+export type PostWardrobeChoiceResponse = {
+    items: WardrobeItem[]
+}
