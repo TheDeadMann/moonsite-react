@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Outline pants shape in blue to match the shirt -->
+  <path d="M50,40 
+           C50,40 45,50 45,60
+           L40,150
+           C40,160 50,160 55,160
+           L70,160
+           C75,160 77,155 78,150
+           L85,80
+           L115,80
+           L122,150
+           C123,155 125,160 130,160
+           L145,160
+           C150,160 160,160 160,150
+           L155,60
+           C155,50 150,40 150,40
+           Z" 
+        fill="none" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

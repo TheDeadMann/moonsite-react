@@ -1,0 +1,51 @@
+@use './variables.scss' as *;
+
+.wardrobePageContent {
+    display: flex;
+    flex-direction: column;
+
+    > * {
+        padding-right: 5%;
+        padding-left: 5%;
+    }
+
+    .segmentedControl {
+        margin-top: 1rem;
+    
+        .root {
+            width: 100%;
+    
+            .indicator {
+                border: 1px solid;
+            }
+    
+            .label {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+                .shirtIcon {
+                    stroke: $shirt-icon-color;
+                    width: 2rem;
+                    height: 2rem;
+                }
+    
+                .pantsIcon {
+                    stroke: $pants-icon-color;
+                    width: 2rem;
+                    height: 2rem;
+                }
+    
+                .shoesIcon {
+                    fill: $shoes-icon-color;
+                    width: 2rem;
+                    height: 2rem;
+                }
+    
+                .labelText {
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+    }
+}

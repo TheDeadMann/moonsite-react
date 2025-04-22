@@ -1,5 +1,9 @@
 .savedOutfits {
     display: flex;
+    flex-direction: column;
     align-self: center;
     margin-top: 2rem;
+    padding-right: 5%;
+    padding-left: 5%;
+    width: 100%;
 }

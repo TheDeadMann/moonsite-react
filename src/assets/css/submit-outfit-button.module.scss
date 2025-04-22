@@ -1,20 +1,34 @@
 @use './variables.scss' as *;
 
 .submitOutfitButton {
-    display: flex;
-    justify-content: center;
-    width: 50%;
-    align-self: center;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 1rem 2rem;
-    text-decoration: none;
-    margin-top: 2rem;
-    border-radius: $border-radius;
+    button {
+        display: flex;
+        justify-content: center;
+        align-self: center;
+        width: 100%;
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        text-decoration: none;
+        margin-top: 2rem;
+        border-radius: $border-radius;
 
-    &:hover {
-        cursor: pointer;
-        background-color: #45a049;
+        &:hover {
+            cursor: pointer;
+            background-color: #45a049;
+        }
+
+        .submitIcon {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .submitButtonText {
+            display: flex;
+            align-items: center;
+            margin-left: 0.25rem;
+        }
     }
 }

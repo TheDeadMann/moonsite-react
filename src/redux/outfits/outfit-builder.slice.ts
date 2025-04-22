@@ -4,11 +4,12 @@ import { OutfitItems } from '../../types/outfit'
 
 // TODO - OutfitBuilder is still kind of a misguiding name, think of something better
 // TODO - make the type readable
-type OutfitBuilderState = {
+export type OutfitBuilderState = {
     items: { [OutfitProperty in keyof OutfitItems]: (OutfitItems[OutfitProperty] | null) }
 } & {
     startedAt: number | null // using timestamp because of redux serialization
     endedAt: number | null // using timestamp because of redux serialization
+    itemTypeListed: keyof OutfitItems
 }
 
 const initialState: OutfitBuilderState = {
@@ -18,7 +19,8 @@ const initialState: OutfitBuilderState = {
         shoes: null
     },
     startedAt: null,
-    endedAt: null
+    endedAt: null,
+    itemTypeListed: 'shirt'
 }
 
 const outfitBuilderSlice = createSlice({
@@ -46,6 +48,9 @@ const outfitBuilderSlice = createSlice({
                 state.endedAt = new Date().getTime()
             }
         },
+        setItemTypeListed: (state, action: PayloadAction<OutfitBuilderState['itemTypeListed']>) => {
+            state.itemTypeListed = action.payload
+        },
         clearOutfitBuilder: (state) => {
             state.items.shirt = null
             state.items.pants = null
@@ -56,6 +61,6 @@ const outfitBuilderSlice = createSlice({
     }
 })
 
-export const { setItem, clearOutfitBuilder } = outfitBuilderSlice.actions
+export const { setItem, clearOutfitBuilder, setItemTypeListed } = outfitBuilderSlice.actions
 
 export default outfitBuilderSlice.reducer

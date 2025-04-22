@@ -1,0 +1,77 @@
+@use './variables.scss' as *;
+
+.outfitItemSelector {
+    display: flex;
+    justify-content: space-around;
+    align-self: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    .itemButton {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border-radius: $border-radius;
+        border: none;
+        width: 20rem;
+        height: 20rem;
+        padding: 0.5rem;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &:hover:not(.itemButtonSelected) {
+            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+        }
+
+        .itemDetails {
+            align-self: flex-start;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+
+            .itemBrand {
+                color: #2E6AEC;
+                font-weight: 600;
+                padding: 0rem 0 0.5rem 0;
+            }
+
+            .colorAndSizeContainer {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                color: $secondery-text-color;
+                font-size: 0.75em;
+            }
+        }
+
+        .shirtIcon {
+            stroke: $shirt-icon-color;
+            width: 2rem;
+            height: 2rem;
+            flex: 1;
+        }
+
+        .pantsIcon {
+            stroke: $pants-icon-color;
+            width: 2rem;
+            height: 2rem;
+            flex: 1;
+        }
+
+        .shoesIcon {
+            fill: $shoes-icon-color;
+            width: 2rem;
+            height: 2rem;
+            flex: 1;
+        }
+    }
+
+    .itemButtonSelected {
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 1);
+    }
+}

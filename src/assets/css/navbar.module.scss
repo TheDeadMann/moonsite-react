@@ -13,10 +13,9 @@
         padding: 1rem;
         background-color: #f0f0f0;
         font-size: 2rem;
-        font-weight: bold;
         text-decoration: none;
         color: #000;
-        border-bottom: 1px solid #000;
+        border-bottom: 1px solid #ccc;
 
         &:hover {
             background-color: #e0e0e0;
@@ -36,8 +35,7 @@
             text-decoration: none;
             color: #000;
             font-size: 1.5rem;
-            font-weight: bold;
-            border-bottom: 1px solid #000;
+            border-bottom: 1px solid #ccc;
 
             &:hover {
                 cursor: pointer;

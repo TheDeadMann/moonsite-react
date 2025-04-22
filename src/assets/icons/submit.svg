@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Box outline in white -->
+  <rect x="40" y="40" width="120" height="120" rx="15" ry="15" 
+        fill="none" stroke="white" stroke-width="10" stroke-linejoin="round"/>
+  
+  <!-- Plus sign inside the box -->
+  <line x1="70" y1="100" x2="130" y2="100" 
+        stroke="white" stroke-width="10" stroke-linecap="round"/>
+  <line x1="100" y1="70" x2="100" y2="130" 
+        stroke="white" stroke-width="10" stroke-linecap="round"/>
+</svg>

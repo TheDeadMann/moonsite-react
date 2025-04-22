@@ -1,0 +1,52 @@
+@use './variables.scss' as *;
+
+.buildOutfitGadget {
+    .gadgetDesciption {
+        margin-bottom: 1rem;
+    }
+
+    .itemTypeButton {
+        all: unset;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        cursor: pointer;
+
+        .itemIconContainer {
+            padding: 1rem;
+
+            .shirtIcon {
+                stroke: $shirt-icon-color;
+                width: 2rem;
+                height: 2rem;
+            }
+        
+            .pantsIcon {
+                stroke: $pants-icon-color;
+                width: 2rem;
+                height: 2rem;
+            }
+        
+            .shoesIcon {
+                fill: $shoes-icon-color;
+                width: 2rem;
+                height: 2rem;
+            }    
+        }
+
+        .secondaryText {
+            font-size: 0.75em;
+            color: $secondery-text-color;
+        }
+    }
+
+    .itemTypeButtonActive {
+        background-color: #EFF6FF;
+        box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+        border-radius: $border-radius;
+    }
+
+    .itemTypeButton:not(:last-child) {
+        margin-bottom: 0.5rem;
+    }
+}

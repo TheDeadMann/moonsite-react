@@ -1,0 +1,44 @@
+@use './variables.scss' as *;
+
+.outfitItemsPreview {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+
+    .itemPreview {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        flex: 1;
+        padding: 10rem 0 10rem 0;
+
+        .itemPreviewText {
+            font-size: 0.75rem;
+            color: $secondery-text-color;
+        }
+    }
+
+    .selectedItemPreview {
+        border-radius: $border-radius;
+        background-color: #EFF6FF;
+        box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+    }
+
+    .shirtIcon {
+        stroke: $shirt-icon-color;
+        height: 2rem;
+        width: 2rem;
+    }
+
+    .pantsIcon {
+        stroke: $pants-icon-color;
+        height: 2rem;
+        width: 2rem;
+    }
+
+    .shoesIcon {
+        fill: $shoes-icon-color;
+        height: 2rem;
+        width: 2rem;
+    }
+}

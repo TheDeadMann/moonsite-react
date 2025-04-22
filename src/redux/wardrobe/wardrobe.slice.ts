@@ -4,7 +4,7 @@ import { WardrobeItem, ShoeItem, PantsItem, ShirtItem, PostWardrobeChoiceRespons
 import { RootState } from '../store'
 import { generateAIRequestBody } from '../../utils/wardrobeAI'
 
-interface WardrobeState {
+export interface WardrobeState {
     shoes: ShoeItem[],
     pants: PantsItem[],
     shirts: ShirtItem[]

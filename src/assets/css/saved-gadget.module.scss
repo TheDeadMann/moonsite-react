@@ -2,21 +2,27 @@
 
 .savedGadget {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    flex-direction: column;
-    padding: 1.5rem 0 1.5rem 0;
-    border: 1px solid $border-color;
-    border-radius: $border-radius;
     color: black;
     text-decoration: none;
-    font-size: 2rem;
+    font-size: 1.5rem;
 
     &:hover {
-        background-color: rgb(205, 201, 201);
         cursor: pointer;
     }
 
-    .outfitCount {
-        font-size: 1.5em;
+    .gadgetText {
+        color: $main-text-color;
+
+        .outfitCount {
+            font-size: 0.5em;
+            color: $secondery-text-color;
+            margin-top: 0.5rem;
+        }
+    }
+
+    .gadgetIcon {
+        color: $secondery-text-color;
     }
 }

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Outfit } from '../../types/outfit'
 
-interface SavedOutfitsState {
+export interface SavedOutfitsState {
     outfits: Outfit[]
 }
 

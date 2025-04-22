@@ -1,19 +1,19 @@
 .gadgetsContainer {
     display: flex;
-    width: 25%;
-    align-self: center;
-    flex-direction: column;;
+    width: 100%;
+    padding-right: 1rem;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
-    font-weight: 600;
 
-    
     > *:not(:last-child) {
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
     }
 
     > * {
         width: 100%;
+        padding-right: 5%;
+        padding-left: 5%;
     }
 }

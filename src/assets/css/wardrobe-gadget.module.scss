@@ -1,21 +1,47 @@
 @use './variables.scss' as *;
 
 .wardrobeGadget {
-    display: flex;
-    justify-content: space-around;
-    border: 1px solid $border-color;
-    border-radius: $border-radius;
-
-    .itemCountObject {
+    .itemCounts {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 1rem 0 1rem 0;
-        font-size: 1.5rem;
+        justify-content: space-around;
 
-        .itemCountDigit {
-            font-size: 2em;
+        .itemCount {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 0 1rem 0;
+    
+            .itemCountDigit {
+                font-size: 2rem;
+                font-weight: 500;
+            }
+
+            .itemCountType {
+                color: $secondery-text-color;
+            }
+
+            .pantsIcon {
+                stroke: $pants-icon-color;
+                width: 3rem;
+                height: 3rem;
+            }
+
+            .shirtIcon {
+                stroke: $shirt-icon-color;
+                width: 3rem;
+                height: 3rem;
+            }
+
+            .shoesIcon {
+                fill: $shoes-icon-color;
+                width: 3rem;
+                height: 3rem;
+            }
+
+            > *:not(:last-child) {
+                margin-bottom: 0.5rem;
+            }
         }
     }
 }
